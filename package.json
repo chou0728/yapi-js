@@ -1,0 +1,30 @@
+{
+  "name": "yapi-js",
+  "version": "1.0.0",
+  "description": "整合YApi自動產生js代碼",
+  "main": "index.js",
+  "scripts": {
+    "pretty": "prettier --write \"./**/*.{js,jsx,json}\""
+  },
+  "bin": {
+    "yapi-js": "./bin/yapi-js"
+  },
+  "keywords": [
+    "js api",
+    "yapi"
+  ],
+  "repository": "",
+  "author": "Eric",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "json5": "^2.1.0",
+    "prettier": "^2.0.5",
+    "yargs": "^13.1.0"
+  },
+  "devDependencies": {
+    "ajv": "^6.9.1",
+    "ava": "^3.8.2",
+    "rewire": "^4.0.1"
+  }
+}

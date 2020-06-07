@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+
+const path = require('path')
+const option = require(path.resolve(process.cwd(), 'yapi-js.config.js'))
+const core = require('../src/index')
+
+console.log('API 生成中...')
+core(option)
+  .then(() => {
+    console.log('生成完成 🎉')
+  })
+  .catch(err => {
+    console.error(err)
+  })
