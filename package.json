@@ -13,7 +13,10 @@
     "js api",
     "yapi"
   ],
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chou0728/yapi-js.git"
+  },
   "author": "Eric",
   "license": "MIT",
   "dependencies": {
@@ -26,5 +29,9 @@
     "ajv": "^6.9.1",
     "ava": "^3.8.2",
     "rewire": "^4.0.1"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/chou0728/yapi-js/issues"
+  },
+  "homepage": "https://github.com/chou0728/yapi-js#readme"
 }
