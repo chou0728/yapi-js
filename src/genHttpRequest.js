@@ -14,7 +14,7 @@ module.exports = function genHttpRequest() {
 
 export function httpRequest(interfaceData, params, options) {
   
-  let  url = interfaceData.path;
+  let  url =  interfaceData.status === 'done' ? interfaceData.path : interfaceData.mock_path;
   let method = interfaceData.method;
 
   let isRestful = false;
