@@ -9,6 +9,7 @@ module.exports = function genCode(interfaceList) {
       title: interfaceData.title,
       method: interfaceData.method,
       path: interfaceData.path,
+      mock_path: `${config.server}/mock/${config.projectId}${interfaceData.path}`,
       status: interfaceData.status,
       req_params: interfaceData.req_params,
       req_query: interfaceData.req_query,
@@ -26,7 +27,7 @@ module.exports = function genCode(interfaceList) {
  * ${genParamsCode(allParams)}
  */
 export const ${config.methodName(interfaceData.path, interfaceData.method)} = (params, options = {}) => {
-  let interfaceData=${JSON.stringify(interfaceDataTemplate, null, 2)};
+  const interfaceData=${JSON.stringify(interfaceDataTemplate, null, 2)};
   return httpRequest(interfaceData,params, options)
 }
   `;
