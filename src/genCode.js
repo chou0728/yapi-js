@@ -15,9 +15,6 @@ module.exports = function genCode(interfaceList) {
       req_query: interfaceData.req_query,
       req_body: interfaceData.req_body_other ? JSON.parse(interfaceData.req_body_other).properties : {}
     }
-    if (interfaceData.req_body_other) {
-      console.log(JSON.parse(interfaceData.req_body_other))
-    }
     const allParams = [...interfaceData.req_params, ...interfaceData.req_query]
 
     code += `
