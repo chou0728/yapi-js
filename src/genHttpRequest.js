@@ -11,7 +11,6 @@ module.exports = function genHttpRequest() {
   let code = config.globalCode || '';
 
   code += `
-
 export function httpRequest(interfaceData, params, options) {
   
   let  url =  interfaceData.status === 'done' ? interfaceData.path : interfaceData.mock_path;
@@ -35,9 +34,7 @@ export function httpRequest(interfaceData, params, options) {
       delete params[item.name]
     })
   }
-
   ${templateContent}
-
   return request({
     url,
     method,
