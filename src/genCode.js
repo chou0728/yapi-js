@@ -18,13 +18,17 @@ module.exports = function genCode(interfaceList) {
     }
     const allParams = [...interfaceData.req_params, ...interfaceData.req_query]
 
+    const functionName = interfaceData.custom_field_value 
+      ? interfaceData.custom_field_value 
+      : config.methodName(interfaceData.path, interfaceData.method)
+
     code += `
 /**
  * @title ${interfaceData.title}
  * @path ${interfaceData.path}
  * ${genParamsCode(allParams)}
  */
-export const ${config.methodName(interfaceData.path, interfaceData.method)} = (params, options = {}) => {
+export const ${functionName} = (params, options = {}) => {
   const interfaceData=${JSON.stringify(interfaceDataTemplate, null, 2)};
   return httpRequest(interfaceData,params, options)
 }
