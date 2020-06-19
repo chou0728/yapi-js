@@ -1,11 +1,11 @@
 const config = require('./config');
-const genParamsCode = require('./genParamsCode')
+const genParamsCode = require('./genParamsCode');
 
 module.exports = function genCode(interfaceList) {
   let code = '';
   code = `/* eslint-disable */\n`;
   code += `import { httpRequest } from './http-request'; `;
-  interfaceList.forEach(async interfaceData => {
+  interfaceList.forEach(interfaceData => {
     let interfaceDataTemplate = {
       title: interfaceData.title,
       method: interfaceData.method,
@@ -14,13 +14,13 @@ module.exports = function genCode(interfaceList) {
       status: interfaceData.status,
       req_params: interfaceData.req_params,
       req_query: interfaceData.req_query,
-      req_body: interfaceData.req_body_other ? JSON.parse(interfaceData.req_body_other).properties : {}
-    }
-    const allParams = [...interfaceData.req_params, ...interfaceData.req_query]
+      req_body: interfaceData.req_body_other ? JSON.parse(interfaceData.req_body_other).properties : {},
+    };
+    const allParams = [...interfaceData.req_params, ...interfaceData.req_query];
 
-    const functionName = interfaceData.custom_field_value 
-      ? interfaceData.custom_field_value 
-      : config.methodName(interfaceData.path, interfaceData.method)
+    const functionName = interfaceData.custom_field_value
+      ? interfaceData.custom_field_value
+      : config.methodName(interfaceData.path, interfaceData.method);
 
     code += `
 /**
