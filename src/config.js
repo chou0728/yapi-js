@@ -34,4 +34,5 @@ module.exports = {
   distFile: path.resolve(process.cwd(), 'yapi.js'), // 檔案輸出至單一檔案 (moduleMode為true時會自動省略)
   distFolder: null, // 檔案輸出資料夾 (moduleMode為true時為必填)
   enableValidte: false,
+  useCustomHttpRequest: false, // 是否使用外部引入http-request的檔案
 };

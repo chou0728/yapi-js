@@ -1,9 +1,11 @@
 const config = require('./config');
+const fs = require('fs');
+const path = require('path');
 
 module.exports = function genHttpRequest() {
   let templateContent;
   if (typeof config.template === 'string') {
-    templateContent = fs.readFileSync(path.resolve(__dirname, `../template/${config.template}.js`), 'utf8');
+    templateContent = fs.readFileSync(path.resolve(__dirname, `./template/axios.js`), 'utf8');
   } else if (typeof config.template === 'function') {
     templateContent = config.template();
   }
@@ -11,7 +13,7 @@ module.exports = function genHttpRequest() {
   let code = config.globalCode || '';
 
   code += `
-export function httpRequest(interfaceData, params, options) {
+const httpRequest = (interfaceData, params, options) => {
   
   let  url =  interfaceData.status === 'done' ? interfaceData.path : interfaceData.mock_path;
   let method = interfaceData.method;
@@ -42,6 +44,8 @@ export function httpRequest(interfaceData, params, options) {
     data: method === 'GET' ? '' : params
   }, options)
 }
+
+export default httpRequest
 `;
 
   return code;
