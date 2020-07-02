@@ -4,7 +4,9 @@ const genParamsCode = require('./genParamsCode');
 module.exports = function genCode(interfaceList) {
   let code = '';
   code = `/* eslint-disable */\n`;
-  code += config.useCustomHttpRequest ? `import httpRequest from '@/http-request';` : `import httpRequest from './http-request';`;
+  code += config.useCustomHttpRequest
+    ? `import httpRequest from '${config.httpRequestPath}/http-request';`
+    : `import httpRequest from './http-request';`;
   interfaceList.forEach(interfaceData => {
     let interfaceDataTemplate = {
       title: interfaceData.title,
