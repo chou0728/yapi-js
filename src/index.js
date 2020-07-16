@@ -55,7 +55,7 @@ async function gen(options = {}) {
 
   let categoryCollection = {};
   for (const category of categoryList) {
-    // 將為命名的desc 設定為 undefined-file
+    // 將未命名的desc 設定為 undefined-file
     category.desc || (category.desc = 'undefinedFile');
     categoryCollection[category.desc ] = [];
   }
@@ -70,9 +70,6 @@ async function gen(options = {}) {
       })
   );
 
-  // console.log(categoryCollection);
-
-  // return;
   // for (let i = 0; i < ApiList.length; i++) {
   //   if (config.categoryId) {
   //     if (ApiList[i].catid != config.categoryId) continue;
@@ -84,7 +81,6 @@ async function gen(options = {}) {
   //   categoryCollection[ApiInterface.catid].push(ApiInterface);
   // }
 
-  // return;
   let code = '';
   if (config.moduleMode && !!config.distFolder) {
     deleteDir(config.distFolder); // 先刪除指定資料夾
@@ -94,16 +90,14 @@ async function gen(options = {}) {
     _.forEach(categoryCollection, (fileArray, fileName) => {
       code = genCode(fileArray);
       fs.writeFileSync(`${config.distFolder}/${fileName}.js`, code, 'utf8');
-      console.log(fileName);
     });
-    // for (const category of categoryList) {
-    //   code = genCode(categoryCollection[category.desc]);
-    //   // fs.writeFileSync(`${config.distFolder}/${category.desc}.js`, code, 'utf8');
-    // }
+
+    // 讀取外部http-requeste規則
     if (!config.useCustomHttpRequest) {
-      // fs.writeFileSync(`${config.distFolder}/http-request.js`, genHttpRequest(), 'utf8');
+      fs.writeFileSync(`${config.distFolder}/http-request.js`, genHttpRequest(), 'utf8');
     }
+
     return;
   }
-  // fs.writeFileSync(config.distFile, code, 'utf8');
+  fs.writeFileSync(config.distFile, code, 'utf8');
 }
