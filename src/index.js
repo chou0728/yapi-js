@@ -88,7 +88,7 @@ async function gen(options = {}) {
 
     // 按照每個接口分類去產生對應檔案
     _.forEach(categoryCollection, (fileArray, fileName) => {
-      code = genCode(fileArray);
+      code = genCode(_.sortBy(fileArray, o => o._id));
       fs.writeFileSync(`${config.distFolder}/${fileName}.js`, code, 'utf8');
     });
 
