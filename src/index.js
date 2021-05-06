@@ -57,7 +57,9 @@ async function gen(options = {}) {
   for (const category of categoryList) {
     // 將未命名的desc 設定為 undefined-file
     category.desc || (category.desc = 'undefinedFile');
-    categoryCollection[category.desc ] = [];
+    // 判斷檔案名有無 斜線 改寫為 "-" 做區隔
+    category.desc.indexOf('/') === -1 || (category.desc = category.desc.replace(/\//g, '-'));
+    categoryCollection[category.desc] = [];
   }
 
   await Promise.all(
@@ -87,9 +89,17 @@ async function gen(options = {}) {
     fs.mkdirSync(config.distFolder); // 再重新創建資料夾
 
     // 按照每個接口分類去產生對應檔案
-    _.forEach(categoryCollection, (fileArray, fileName) => {
+    _.forEach(categoryCollection, (fileArray, folderCategory) => {
+      let fileName = folderCategory; // 檔案分類名稱
+      let distFolder = config.distFolder; // 預設基本路徑
+      let deepFolder = fileName.split('-').filter(Boolean); // 處理多層資料結構 - 過濾空白
+      if(deepFolder.length > 1) {
+        fileName = deepFolder.pop(); // 最後一個
+        distFolder = [config.distFolder, ...deepFolder]
+      
+      }
       code = genCode(_.sortBy(fileArray, o => o._id));
-      fs.writeFileSync(`${config.distFolder}/${fileName}.js`, code, 'utf8');
+      fs.writeFileSync(`${distFolder}/${fileName}.js`, code, 'utf8');
     });
 
     // 讀取外部http-requeste規則
