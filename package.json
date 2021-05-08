@@ -1,6 +1,6 @@
 {
   "name": "yapi-js",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "整合YApi自動產生js代碼",
   "main": "index.js",
   "scripts": {
@@ -20,16 +20,16 @@
   "author": "Eric",
   "license": "MIT",
   "dependencies": {
-    "axios": "0.21.1",
-    "json5": "2.1.3",
-    "lodash": "4.17.19",
-    "prettier": "2.0.5",
-    "yargs": "13.3.2"
+    "axios": "^0.18.0",
+    "json5": "^2.1.0",
+    "lodash": "^4.17.19",
+    "prettier": "^2.0.5",
+    "yargs": "^13.1.0"
   },
   "devDependencies": {
-    "ajv": "6.12.2",
-    "ava": "3.8.2",
-    "rewire": "4.0.1"
+    "ajv": "^6.9.1",
+    "ava": "^3.8.2",
+    "rewire": "^4.0.1"
   },
   "bugs": {
     "url": "https://github.com/chou0728/yapi-js/issues"

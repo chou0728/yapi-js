@@ -57,7 +57,9 @@ async function gen(options = {}) {
   for (const category of categoryList) {
     // 將未命名的desc 設定為 undefined-file
     category.desc || (category.desc = 'undefinedFile');
-    categoryCollection[category.desc ] = [];
+    // 判斷檔案名有無 斜線 改寫為 "-" 做區隔
+    category.desc.indexOf('/') === -1 || (category.desc = category.desc.replace(/\//g, '-'));
+    categoryCollection[category.desc] = [];
   }
 
   await Promise.all(
@@ -84,12 +86,20 @@ async function gen(options = {}) {
   let code = '';
   if (config.moduleMode && !!config.distFolder) {
     deleteDir(config.distFolder); // 先刪除指定資料夾
-    fs.mkdirSync(config.distFolder); // 再重新創建資料夾
+    fs.mkdirSync(config.distFolder, { recursive: true }); // 再重新創建資料夾
 
     // 按照每個接口分類去產生對應檔案
-    _.forEach(categoryCollection, (fileArray, fileName) => {
-      code = genCode(_.sortBy(fileArray, o => o._id));
-      fs.writeFileSync(`${config.distFolder}/${fileName}.js`, code, 'utf8');
+    _.forEach(categoryCollection, (fileArray, folderCategory) => {
+      let fileName = folderCategory; // 檔案分類名稱
+      let distFolder = config.distFolder; // 預設基本路徑
+      let deepFolder = fileName.split('-').filter(Boolean); // 處理多層資料結構 - 過濾空白
+      if(deepFolder.length > 1) { // 如果有 "-" 表示不是基本預設路徑 須檢測深度路徑
+        fileName = deepFolder.pop(); // 最後一個表示檔案名稱
+        distFolder = [config.distFolder, ...deepFolder].join('/'); // 重組路徑
+        fs.existsSync(distFolder) || fs.mkdirSync(distFolder, { recursive: true }); // 再次創建資料夾
+      }
+      code = genCode(_.sortBy(fileArray, o => o._id)); // 重新排序 api 避免每次產生位置都不一樣
+      fs.writeFileSync(`${distFolder}/${fileName}.js`, code, 'utf8');
     });
 
     // 讀取外部http-requeste規則
