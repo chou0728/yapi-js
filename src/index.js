@@ -23,7 +23,8 @@ async function gen(options = {}) {
   let ApiList; // 全部接口
   let projectId; // 項目id
   let categoryList; // 接口分類
-
+  let basePath; // 專案接口基本路徑
+  
   try {
     // 獲取接口列表數據
     const {
@@ -36,10 +37,11 @@ async function gen(options = {}) {
     // 獲取專案基本資訊
     const {
       data: {
-        data: { _id },
+        data: { _id, basepath },
       },
     } = await axios.get(`${config.server}/api/project/get?token=${config.token}`);
     projectId = _id;
+    basePath = basepath
 
     // 獲取專案接口分類
     const {
@@ -98,7 +100,7 @@ async function gen(options = {}) {
         distFolder = [config.distFolder, ...deepFolder].join('/'); // 重組路徑
         fs.existsSync(distFolder) || fs.mkdirSync(distFolder, { recursive: true }); // 再次創建資料夾
       }
-      code = genCode(_.sortBy(fileArray, o => o._id)); // 重新排序 api 避免每次產生位置都不一樣
+      code = genCode(_.sortBy(fileArray, o => o._id), basePath); // 重新排序 api 避免每次產生位置都不一樣
       fs.writeFileSync(`${distFolder}/${fileName}.js`, code, 'utf8');
     });
 

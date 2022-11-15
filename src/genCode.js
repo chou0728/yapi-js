@@ -1,7 +1,7 @@
 const config = require('./config');
 const genParamsCode = require('./genParamsCode');
 
-module.exports = function genCode(interfaceList) {
+module.exports = function genCode(interfaceList, basePath = '') {
   let code = '';
   code = `/* eslint-disable */\n`;
   code += config.useCustomHttpRequest
@@ -12,7 +12,7 @@ module.exports = function genCode(interfaceList) {
       title: interfaceData.title,
       method: interfaceData.method,
       path: interfaceData.path,
-      mock_path: `${config.server}/mock/${config.projectId}${interfaceData.path}`,
+      mock_path: `${config.server}/mock/${config.projectId}${basePath}${interfaceData.path}`,
       status: interfaceData.status,
       req_params: interfaceData.req_params,
       req_query: interfaceData.req_query,
